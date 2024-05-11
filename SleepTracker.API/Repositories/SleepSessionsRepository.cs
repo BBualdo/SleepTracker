@@ -1,4 +1,5 @@
-﻿using SleepTracker.API.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SleepTracker.API.Data;
 using SleepTracker.API.Models;
 
 namespace SleepTracker.API.Repositories;
@@ -7,28 +8,32 @@ public class SleepSessionsRepository(SleepSessionsContext context) : ISleepSessi
 {
   private readonly SleepSessionsContext _context = context;
 
-  public Task AddSession(SleepSession session)
+  public async Task AddSession(SleepSession session)
   {
-    throw new NotImplementedException();
+    await _context.Sessions.AddAsync(session);
+    await _context.SaveChangesAsync();
   }
 
-  public Task DeleteSession(int id)
+  public async Task DeleteSession(int id)
   {
-    throw new NotImplementedException();
+    SleepSession session = await _context.Sessions.SingleAsync(session => session.Id == id);
+    _context.Sessions.Remove(session);
+    await _context.SaveChangesAsync();
   }
 
-  public Task<IEnumerable<SleepSession>> GetAllSessions()
+  public async Task<IEnumerable<SleepSession>> GetAllSessions()
   {
-    throw new NotImplementedException();
+    return await _context.Sessions.ToListAsync();
   }
 
-  public Task<SleepSession?> GetSessionById(int id)
+  public async Task<SleepSession?> GetSessionById(int id)
   {
-    throw new NotImplementedException();
+    return await _context.Sessions.FindAsync(id);
   }
 
-  public Task UpdateSession(SleepSession session)
+  public async Task UpdateSession(SleepSession session)
   {
-    throw new NotImplementedException();
+    _context.Entry(session).State = EntityState.Modified;
+    await _context.SaveChangesAsync();
   }
 }

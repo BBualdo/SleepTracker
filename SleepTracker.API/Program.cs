@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SleepTracker.API.Data;
+using SleepTracker.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddDbContext<SleepSessionsContext>(options =>
 {
   options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
+builder.Services.AddScoped<ISleepSessionsRepository, SleepSessionsRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

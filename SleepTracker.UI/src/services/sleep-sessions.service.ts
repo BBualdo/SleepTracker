@@ -9,7 +9,12 @@ import { url } from '../config/config';
 })
 export class SleepSessionsService {
   constructor(private http: HttpClient) {}
+
   getSessions(): Observable<SleepSession[]> {
     return this.http.get<SleepSession[]>(url);
+  }
+
+  deleteSession(session: SleepSession): Observable<SleepSession> {
+    return this.http.delete<SleepSession>(url + session.id);
   }
 }

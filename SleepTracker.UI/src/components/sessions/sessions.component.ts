@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SleepSession } from '../../models/SleepSession';
-import { Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { SleepSessionsService } from '../../services/sleep-sessions.service';
 import { AsyncPipe, formatDate } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,5 +29,13 @@ export class SessionsComponent {
 
   formatDate(date: Date | string, format: string, locale: string): string {
     return formatDate(date, format, locale);
+  }
+
+  deleteSession(session: SleepSession) {
+    this.sleepSessionsService.deleteSession(session).subscribe(() => {
+      this.sessions$ = this.sessions$.pipe(
+        map((sessions) => sessions.filter((s) => s.id !== session.id)),
+      );
+    });
   }
 }

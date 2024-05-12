@@ -25,14 +25,14 @@
               <button class="edit__btn">
                 <mat-icon fontIcon="edit"></mat-icon>
               </button>
-              <button class="delete__btn">
+              <button class="delete__btn" (click)="deleteSession(session)">
                 <mat-icon fontIcon="delete"></mat-icon>
               </button>
             </div>
           </div>
         }
       } @else {
-        <p>No sessions yet.</p>
+        <p class="no-sessions">No sessions yet.</p>
       }
     </div>
   } @else {

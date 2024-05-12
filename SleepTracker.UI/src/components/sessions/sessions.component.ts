@@ -6,13 +6,20 @@ import { AsyncPipe, formatDate } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '../back-button/back-button.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-sessions',
   standalone: true,
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',
-  imports: [AsyncPipe, MatIconModule, RouterLink, BackButtonComponent],
+  imports: [
+    AsyncPipe,
+    MatIconModule,
+    RouterLink,
+    BackButtonComponent,
+    MatProgressSpinnerModule,
+  ],
 })
 export class SessionsComponent {
   sessions$: Observable<SleepSession[]> =

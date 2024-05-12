@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SleepSession } from '../../models/SleepSession';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SleepSessionsService } from '../../services/sleep-sessions.service';
 import { AsyncPipe, formatDate } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,7 +53,18 @@ export class SessionsComponent {
       });
   }
 
-  deleteSession(session: SleepSession) {
+  openAddDialog() {
+    this.dialogService
+      .openAddDialog()
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          console.log(res);
+        }
+      });
+  }
+
+  private deleteSession(session: SleepSession) {
     this.sleepSessionsService.deleteSession(session).subscribe(() => {
       this.sessions$ = this.sessions$.pipe(
         map((sessions) => sessions.filter((s) => s.id !== session.id)),

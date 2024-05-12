@@ -16,9 +16,15 @@
     background-color: $nightBlueGlass;
     border-radius: 20px;
     max-width: 1000px;
-    height: 500px;
     padding: 12px 4px 40px 4px;
     width: 100%;
+
+    .sessions__panel {
+      align-items: center;
+      display: flex;
+      justify-content: end;
+      padding: 20px;
+    }
 
     .sessions__header,
     .session {
@@ -39,7 +45,7 @@
     }
 
     .sessions {
-      height: 90%;
+      height: 100%;
       overflow-x: auto;
     }
 

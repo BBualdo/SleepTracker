@@ -27,6 +27,22 @@ main {
   padding: 24px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $neonPinkGlass;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $neonPink;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $neonPinkGlass;
+}
+
 .btn {
   align-items: center;
   border-radius: 20px;

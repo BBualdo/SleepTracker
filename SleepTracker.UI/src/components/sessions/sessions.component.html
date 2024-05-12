@@ -10,30 +10,32 @@
         <span>Duration</span>
         <span><mat-icon fontIcon="more_vert"></mat-icon></span>
       </div>
-      @if (sessions.length > 0) {
-        @for (session of sessions; track $index) {
-          <div class="session">
-            <span>{{ $index + 1 }}</span>
-            <span>{{
-              formatDate(session.startTime, "dd.MM.yyyy HH:mm", "en-US")
-            }}</span>
-            <span>{{
-              formatDate(session.endTime, "dd.MM.yyyy HH:mm", "en-US")
-            }}</span>
-            <span>{{ getDuration(session.durationInMinutes) }}</span>
-            <div class="buttons">
-              <button class="edit__btn">
-                <mat-icon fontIcon="edit"></mat-icon>
-              </button>
-              <button class="delete__btn" (click)="deleteSession(session)">
-                <mat-icon fontIcon="delete"></mat-icon>
-              </button>
+      <div class="sessions">
+        @if (sessions.length > 0) {
+          @for (session of sessions; track $index) {
+            <div class="session">
+              <span>{{ $index + 1 }}</span>
+              <span>{{
+                formatDate(session.startTime, "dd.MM.yyyy HH:mm", "en-US")
+              }}</span>
+              <span>{{
+                formatDate(session.endTime, "dd.MM.yyyy HH:mm", "en-US")
+              }}</span>
+              <span>{{ getDuration(session.durationInMinutes) }}</span>
+              <div class="buttons">
+                <button class="edit__btn">
+                  <mat-icon fontIcon="edit"></mat-icon>
+                </button>
+                <button class="delete__btn" (click)="deleteSession(session)">
+                  <mat-icon fontIcon="delete"></mat-icon>
+                </button>
+              </div>
             </div>
-          </div>
+          }
+        } @else {
+          <p class="no-sessions">No sessions yet.</p>
         }
-      } @else {
-        <p class="no-sessions">No sessions yet.</p>
-      }
+      </div>
     </div>
   } @else {
     <p>Loading...</p>

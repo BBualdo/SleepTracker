@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '../back-button/back-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'app-sessions',
@@ -25,7 +26,10 @@ export class SessionsComponent {
   sessions$: Observable<SleepSession[]> =
     this.sleepSessionsService.getSessions();
 
-  constructor(private sleepSessionsService: SleepSessionsService) {}
+  constructor(
+    private sleepSessionsService: SleepSessionsService,
+    private dialogService: DialogService,
+  ) {}
 
   getDuration(duration: number): string {
     const hours = duration / 60;
@@ -36,6 +40,17 @@ export class SessionsComponent {
 
   formatDate(date: Date | string, format: string, locale: string): string {
     return formatDate(date, format, locale);
+  }
+
+  confirmDelete(session: SleepSession) {
+    this.dialogService
+      .openConfirmDialog()
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.deleteSession(session);
+        }
+      });
   }
 
   deleteSession(session: SleepSession) {

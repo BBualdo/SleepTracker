@@ -5,6 +5,7 @@ import { SleepSession } from '../models/SleepSession';
 import { url } from '../config/config';
 import { SnackbarService } from './snackbar.service';
 import { ErrorsService } from './errors.service';
+import { SleepSessionDTO } from '../models/SleepSessionDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,12 @@ export class SleepSessionsService {
   getSessions(): Observable<SleepSession[]> {
     return this.http
       .get<SleepSession[]>(url)
+      .pipe(catchError(this.handleError.bind(this)));
+  }
+
+  addSession(session: SleepSessionDTO): Observable<SleepSessionDTO> {
+    return this.http
+      .post<SleepSessionDTO>(url, session)
       .pipe(catchError(this.handleError.bind(this)));
   }
 

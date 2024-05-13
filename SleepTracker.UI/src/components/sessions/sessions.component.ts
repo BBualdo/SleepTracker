@@ -32,8 +32,8 @@ export class SessionsComponent {
   ) {}
 
   getDuration(duration: number): string {
-    const hours = duration / 60;
-    const minutes = duration % 60;
+    const hours = Math.floor(duration / 60);
+    const minutes = Math.round(duration % 60);
 
     return hours ? `${hours}h ` + `${minutes}m` : minutes + ' m';
   }
@@ -59,7 +59,10 @@ export class SessionsComponent {
       .afterClosed()
       .subscribe((res) => {
         if (res) {
-          console.log(res);
+          res.subscribe({
+            next: () =>
+              (this.sessions$ = this.sleepSessionsService.getSessions()),
+          });
         }
       });
   }

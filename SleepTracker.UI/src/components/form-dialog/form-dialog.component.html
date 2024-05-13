@@ -6,13 +6,18 @@
       [matDatepicker]="startPicker"
       placeholder="MM/DD/YYYY"
       formControlName="startDate"
+      [max]="today"
     />
     <mat-datepicker-toggle
       matIconSuffix
       [for]="startPicker"
     ></mat-datepicker-toggle>
     <mat-datepicker #startPicker></mat-datepicker>
+    @if (formGroup.controls["startDate"].errors?.["required"]) {
+      <mat-error>Required Field</mat-error>
+    }
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>Start Time</mat-label>
     <input
@@ -22,7 +27,14 @@
       maxlength="5"
       formControlName="startTime"
     />
+    @if (formGroup.controls["startTime"].errors?.["required"]) {
+      <mat-error>Required Field</mat-error>
+    }
+    @if (formGroup.controls["startTime"].errors?.["pattern"]) {
+      <mat-error>Invalid format</mat-error>
+    }
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>End Date</mat-label>
     <input
@@ -30,13 +42,19 @@
       [matDatepicker]="endPicker"
       placeholder="MM/DD/YYYY"
       formControlName="endDate"
+      [max]="today"
+      [min]="formGroup.controls['startDate'].value"
     />
     <mat-datepicker-toggle
       matIconSuffix
       [for]="endPicker"
     ></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
+    @if (formGroup.controls["endDate"].errors?.["required"]) {
+      <mat-error>Required Field</mat-error>
+    }
   </mat-form-field>
+
   <mat-form-field>
     <mat-label>End Time</mat-label>
     <input
@@ -46,6 +64,12 @@
       maxlength="5"
       formControlName="endTime"
     />
+    @if (formGroup.controls["endTime"].errors?.["required"]) {
+      <mat-error>Required Field</mat-error>
+    }
+    @if (formGroup.controls["endTime"].errors?.["pattern"]) {
+      <mat-error>Invalid format</mat-error>
+    }
   </mat-form-field>
   <button class="btn primary__btn">Add</button>
 </form>

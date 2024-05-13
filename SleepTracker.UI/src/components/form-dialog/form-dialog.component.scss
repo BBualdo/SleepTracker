@@ -1,0 +1,13 @@
+@import "../../variables.scss";
+
+form {
+  align-items: center;
+  background-color: $nightBlue;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}

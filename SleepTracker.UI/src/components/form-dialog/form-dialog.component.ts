@@ -6,42 +6,26 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { formatDate } from '@angular/common';
+import { NgClass, formatDate } from '@angular/common';
 import { SleepSessionDTO } from '../../models/SleepSessionDTO';
 import { SleepSessionsService } from '../../services/sleep-sessions.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-form-dialog',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, MatIconModule, MatError, NgClass],
   templateUrl: './form-dialog.component.html',
   styleUrl: './form-dialog.component.scss',
 })
 export class FormDialogComponent {
-  private regex: RegExp = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
-  today = new Date();
+  today = formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en-US');
 
   formGroup: FormGroup = new FormGroup({
-    startDate: new FormControl<string>('', [Validators.required]),
-    startTime: new FormControl<string>('', [
-      Validators.required,
-      Validators.pattern(this.regex),
-    ]),
-    endDate: new FormControl<string>('', [Validators.required]),
-    endTime: new FormControl<string>('', [
-      Validators.required,
-      Validators.pattern(this.regex),
-    ]),
+    startTime: new FormControl<string>('', [Validators.required]),
+    endTime: new FormControl<string>('', [Validators.required]),
   });
 
   constructor(
@@ -51,28 +35,19 @@ export class FormDialogComponent {
 
   addSession() {
     if (this.formGroup.valid) {
-      const startTime = this.getISOdate(
-        this.formGroup.value.startDate,
-        this.formGroup.value.startTime,
-      );
-
-      const endTime = this.getISOdate(
-        this.formGroup.value.endDate,
-        this.formGroup.value.endTime,
-      );
-
       const session: SleepSessionDTO = {
-        startTime,
-        endTime,
+        startTime: this.formatToISO(this.formGroup.value.startTime),
+        endTime: this.formatToISO(this.formGroup.value.endTime),
       };
-
       this.dialogRef.close(this.sessionsService.addSession(session));
     }
   }
 
-  private getISOdate(dateStr: string, timeStr: string): string {
-    const date = formatDate(dateStr, 'yyyy-MM-dd', 'en-US');
+  closeDialog() {
+    this.dialogRef.close();
+  }
 
-    return `${date}T${timeStr}:00.000Z`;
+  private formatToISO(date: string | Date): string {
+    return formatDate(date, 'yyyy-MM-ddTHH:mm:ss.000', 'en-US') + 'Z';
   }
 }

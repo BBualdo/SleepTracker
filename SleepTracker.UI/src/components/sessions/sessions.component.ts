@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { BackButtonComponent } from '../back-button/back-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogService } from '../../services/dialog.service';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-sessions',
@@ -20,6 +21,7 @@ import { DialogService } from '../../services/dialog.service';
     RouterLink,
     BackButtonComponent,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
   ],
 })
 export class SessionsComponent {

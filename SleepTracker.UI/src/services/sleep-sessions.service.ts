@@ -42,6 +42,13 @@ export class SleepSessionsService {
       this.errorsService.add(`No connection. Try again later.`);
     }
 
-    return throwError(() => new Error('Something bad happened.'));
+    if (error.status === 500) {
+      this.errorsService.openDialog();
+      this.errorsService.add('Something bad happened. Try again later.');
+    }
+
+    return throwError(
+      () => new Error('Something bad happened. ' + error.message),
+    );
   }
 }

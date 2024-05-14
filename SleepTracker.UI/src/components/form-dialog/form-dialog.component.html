@@ -1,75 +1,56 @@
-<form (ngSubmit)="addSession()" [formGroup]="formGroup">
-  <mat-form-field>
-    <mat-label>Start Date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="startPicker"
-      placeholder="MM/DD/YYYY"
-      formControlName="startDate"
-      [max]="today"
-    />
-    <mat-datepicker-toggle
-      matIconSuffix
-      [for]="startPicker"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #startPicker></mat-datepicker>
-    @if (formGroup.controls["startDate"].errors?.["required"]) {
-      <mat-error>Required Field</mat-error>
-    }
-  </mat-form-field>
+<div class="form__container">
+  <div class="form__header">
+    <h2>Add Session</h2>
+    <button (click)="closeDialog()">
+      <mat-icon fontIcon="close"></mat-icon>
+    </button>
+  </div>
 
-  <mat-form-field>
-    <mat-label>Start Time</mat-label>
-    <input
-      matInput
-      matNativeControl="number"
-      placeholder="00:00"
-      maxlength="5"
-      formControlName="startTime"
-    />
-    @if (formGroup.controls["startTime"].errors?.["required"]) {
-      <mat-error>Required Field</mat-error>
-    }
-    @if (formGroup.controls["startTime"].errors?.["pattern"]) {
-      <mat-error>Invalid format</mat-error>
-    }
-  </mat-form-field>
+  <form (ngSubmit)="addSession()" [formGroup]="formGroup">
+    <div class="form__field">
+      <label>Start Time</label>
+      <input
+        type="text"
+        placeholder="Enter Date"
+        onfocus="this.type='datetime-local'; this.showPicker()"
+        formControlName="startTime"
+        [max]="today || formGroup.controls['endTime'].value"
+        [ngClass]="{
+          invalid:
+            formGroup.controls['startTime'].touched &&
+            formGroup.controls['startTime'].errors
+        }"
+      />
+      @if (
+        formGroup.controls["startTime"].touched &&
+        formGroup.controls["startTime"].errors?.["required"]
+      ) {
+        <p class="text-danger">Required Field</p>
+      }
+    </div>
 
-  <mat-form-field>
-    <mat-label>End Date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="endPicker"
-      placeholder="MM/DD/YYYY"
-      formControlName="endDate"
-      [max]="today"
-      [min]="formGroup.controls['startDate'].value"
-    />
-    <mat-datepicker-toggle
-      matIconSuffix
-      [for]="endPicker"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #endPicker></mat-datepicker>
-    @if (formGroup.controls["endDate"].errors?.["required"]) {
-      <mat-error>Required Field</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>End Time</mat-label>
-    <input
-      matInput
-      matNativeControl="number"
-      placeholder="00:00"
-      maxlength="5"
-      formControlName="endTime"
-    />
-    @if (formGroup.controls["endTime"].errors?.["required"]) {
-      <mat-error>Required Field</mat-error>
-    }
-    @if (formGroup.controls["endTime"].errors?.["pattern"]) {
-      <mat-error>Invalid format</mat-error>
-    }
-  </mat-form-field>
-  <button class="btn primary__btn">Add</button>
-</form>
+    <div class="form__field">
+      <label>End Time</label>
+      <input
+        type="text"
+        placeholder="Enter Date"
+        onfocus="this.type='datetime-local'; this.showPicker()"
+        formControlName="endTime"
+        [min]="formGroup.controls['startTime'].value"
+        [max]="today"
+        [ngClass]="{
+          invalid:
+            formGroup.controls['endTime'].touched &&
+            formGroup.controls['endTime'].errors
+        }"
+      />
+      @if (
+        formGroup.controls["endTime"].touched &&
+        formGroup.controls["endTime"].errors?.["required"]
+      ) {
+        <p class="text-danger">Required Field</p>
+      }
+    </div>
+    <button class="btn primary__btn">Add</button>
+  </form>
+</div>

@@ -10,6 +10,7 @@ export class SnackbarService {
     this.snackbar.open(message, 'OK', {
       verticalPosition: 'top',
       panelClass: ['snackbar'],
+      duration: 2000,
     });
   }
 }

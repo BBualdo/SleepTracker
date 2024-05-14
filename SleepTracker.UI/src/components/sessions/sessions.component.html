@@ -4,6 +4,13 @@
   @if (sessions$ | async; as sessions) {
     <div class="sessions__box">
       <div class="sessions__panel">
+        <input
+          type="text"
+          placeholder="Search by Date"
+          onfocus="this.type='date'; this.showPicker()"
+          onchange="this.blur()"
+          onblur="this.type='text'"
+        />
         <button
           class="btn primary__btn"
           (click)="openFormDialog('add', 'Add Session')"

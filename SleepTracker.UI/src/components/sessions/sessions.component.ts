@@ -9,6 +9,7 @@ import { BackButtonComponent } from '../back-button/back-button.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogService } from '../../services/dialog.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { PaginationService } from '../../services/pagination.service';
 
 @Component({
   selector: 'app-sessions',
@@ -29,46 +30,14 @@ export class SessionsComponent implements OnInit {
   sessions$: Observable<SleepSession[]> =
     this.sleepSessionsService.getSessions();
 
-  paginatedSessions: SleepSession[] = [];
-
-  currentPage = 1;
-  pageSize = 5;
-  pagesAmount = 1;
-
   constructor(
     private sleepSessionsService: SleepSessionsService,
     private dialogService: DialogService,
+    public paginationService: PaginationService,
   ) {}
 
   ngOnInit(): void {
-    this.paginateSessions();
-  }
-
-  paginateSessions() {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-
-    this.sessions$.subscribe((sessions) => {
-      this.paginatedSessions = sessions.slice(startIndex, endIndex);
-      this.pagesAmount = Math.ceil(sessions.length / this.pageSize);
-      if (this.currentPage > this.pagesAmount) {
-        this.previousPage();
-      }
-    });
-  }
-
-  nextPage() {
-    if (this.currentPage < this.pagesAmount) {
-      this.currentPage++;
-      this.paginateSessions();
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.paginateSessions();
-    }
+    this.paginationService.paginateSessions();
   }
 
   getDuration(duration: number): string {
@@ -106,7 +75,7 @@ export class SessionsComponent implements OnInit {
           res.subscribe({
             next: () => {
               this.sessions$ = this.sleepSessionsService.getSessions();
-              this.paginateSessions();
+              this.paginationService.paginateSessions();
             },
           });
         }
@@ -119,7 +88,7 @@ export class SessionsComponent implements OnInit {
         map((sessions) => sessions.filter((s) => s.id !== session.id)),
       );
 
-      this.paginateSessions();
+      this.paginationService.paginateSessions();
     });
   }
 }

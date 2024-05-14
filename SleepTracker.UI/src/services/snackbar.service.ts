@@ -9,6 +9,7 @@ export class SnackbarService {
   snackbarLog(message: string) {
     this.snackbar.open(message, 'OK', {
       verticalPosition: 'top',
+      panelClass: ['snackbar'],
     });
   }
 }

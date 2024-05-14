@@ -25,9 +25,10 @@ export class SleepSessionsService {
   }
 
   addSession(session: SleepSessionAddDTO): Observable<SleepSessionAddDTO> {
-    return this.http
-      .post<SleepSessionAddDTO>(url, session)
-      .pipe(catchError(this.handleError.bind(this)));
+    return this.http.post<SleepSessionAddDTO>(url, session).pipe(
+      tap(() => this.snackbarService.snackbarLog('Session added.')),
+      catchError(this.handleError.bind(this)),
+    );
   }
 
   updateSession(

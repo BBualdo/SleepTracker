@@ -81,6 +81,14 @@ main {
   color: $neonPink;
 }
 
+.mat-mdc-snack-bar-container {
+  &.snackbar {
+    --mdc-snackbar-container-color: rgb(202, 0, 125);
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
 @keyframes blur {
   from {
     backdrop-filter: blur(0);

@@ -30,13 +30,23 @@ export class FormDialogComponent {
   formGroup: FormGroup = new FormGroup({
     startTime: new FormControl<string>(
       this.data.session
-        ? formatDate(this.data.session?.startTime, 'yyyy-MM-dd HH:mm', 'en-US')
+        ? formatDate(
+            this.data.session?.startTime,
+            'yyyy-MM-dd HH:mm',
+            'en-US',
+            'UTC',
+          )
         : '',
       [Validators.required],
     ),
     endTime: new FormControl<string>(
       this.data.session
-        ? formatDate(this.data.session?.endTime, 'yyyy-MM-dd HH:mm', 'en-US')
+        ? formatDate(
+            this.data.session?.endTime,
+            'yyyy-MM-dd HH:mm',
+            'en-US',
+            'UTC',
+          )
         : '',
       [Validators.required],
     ),

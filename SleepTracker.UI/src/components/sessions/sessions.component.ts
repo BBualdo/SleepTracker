@@ -41,7 +41,7 @@ export class SessionsComponent {
   }
 
   formatDate(date: Date | string, format: string, locale: string): string {
-    return formatDate(date, format, locale);
+    return formatDate(date, format, locale, 'UTC');
   }
 
   confirmDelete(session: SleepSession) {

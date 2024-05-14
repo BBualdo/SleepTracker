@@ -89,8 +89,11 @@ export class SessionsComponent implements OnInit {
         if (res) {
           res.subscribe({
             next: () => {
-              this.sessions$ = this.sleepSessionsService.getSessions();
-              this.paginationService.paginateSessions();
+              this.sleepSessionsService
+                .getSessions()
+                .subscribe((sessions) =>
+                  this.dataService.sessionsSubject.next(sessions),
+                );
             },
           });
         }
@@ -99,9 +102,9 @@ export class SessionsComponent implements OnInit {
 
   private deleteSession(session: SleepSession) {
     this.sleepSessionsService.deleteSession(session).subscribe(() => {
-      this.sessions$ = this.sessions$.pipe(
-        map((sessions) => sessions.filter((s) => s.id !== session.id)),
-      );
+      this.sleepSessionsService.getSessions().subscribe((sessions) => {
+        this.dataService.sessionsSubject.next(sessions);
+      });
 
       this.paginationService.paginateSessions();
     });

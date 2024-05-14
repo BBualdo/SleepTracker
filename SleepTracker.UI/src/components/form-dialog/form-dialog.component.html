@@ -1,12 +1,12 @@
 <div class="form__container">
   <div class="form__header">
-    <h2>Add Session</h2>
+    <h2>{{ title }}</h2>
     <button (click)="closeDialog()">
       <mat-icon fontIcon="close"></mat-icon>
     </button>
   </div>
 
-  <form (ngSubmit)="addSession()" [formGroup]="formGroup">
+  <form (ngSubmit)="submit()" [formGroup]="formGroup">
     <div class="form__field">
       <label>Start Time</label>
       <input
@@ -51,6 +51,6 @@
         <p class="text-danger">Required Field</p>
       }
     </div>
-    <button class="btn primary__btn">Add</button>
+    <button class="btn primary__btn">{{ buttonText }}</button>
   </form>
 </div>

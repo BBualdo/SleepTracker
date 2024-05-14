@@ -55,9 +55,13 @@ export class SessionsComponent {
       });
   }
 
-  openAddDialog() {
+  openFormDialog(
+    type: 'add' | 'update',
+    title: string,
+    session?: SleepSession,
+  ) {
     this.dialogService
-      .openAddDialog()
+      .openFormDialog(type, title, session)
       .afterClosed()
       .subscribe((res) => {
         if (res) {

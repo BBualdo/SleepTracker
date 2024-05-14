@@ -1,6 +1,5 @@
-export interface SleepSession {
+export interface SleepSessionUpdateDTO {
   id: number;
   startTime: Date | string;
   endTime: Date | string;
-  durationInMinutes: number;
 }

@@ -5,7 +5,8 @@ import { SleepSession } from '../models/SleepSession';
 import { url } from '../config/config';
 import { SnackbarService } from './snackbar.service';
 import { ErrorsService } from './errors.service';
-import { SleepSessionDTO } from '../models/SleepSessionDTO';
+import { SleepSessionAddDTO } from '../models/SleepSessionAddDTO';
+import { SleepSessionUpdateDTO } from '../models/SleepSessionUpdateDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +24,19 @@ export class SleepSessionsService {
       .pipe(catchError(this.handleError.bind(this)));
   }
 
-  addSession(session: SleepSessionDTO): Observable<SleepSessionDTO> {
+  addSession(session: SleepSessionAddDTO): Observable<SleepSessionAddDTO> {
     return this.http
-      .post<SleepSessionDTO>(url, session)
+      .post<SleepSessionAddDTO>(url, session)
       .pipe(catchError(this.handleError.bind(this)));
+  }
+
+  updateSession(
+    session: SleepSessionUpdateDTO,
+  ): Observable<SleepSessionUpdateDTO> {
+    return this.http.put<SleepSessionUpdateDTO>(url + session.id, session).pipe(
+      tap(() => this.snackbarService.snackbarLog('Session updated.')),
+      catchError(this.handleError),
+    );
   }
 
   deleteSession(session: SleepSession): Observable<SleepSession> {

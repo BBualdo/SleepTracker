@@ -4,7 +4,10 @@
   @if (sessions$ | async; as sessions) {
     <div class="sessions__box">
       <div class="sessions__panel">
-        <button class="btn primary__btn" (click)="openAddDialog()">
+        <button
+          class="btn primary__btn"
+          (click)="openFormDialog('add', 'Add Session')"
+        >
           Add Session
         </button>
       </div>
@@ -29,7 +32,10 @@
               }}</span>
               <span>{{ getDuration(session.durationInMinutes) }}</span>
               <div class="buttons">
-                <button class="edit__btn">
+                <button
+                  class="edit__btn"
+                  (click)="openFormDialog('update', 'Update Session', session)"
+                >
                   <mat-icon fontIcon="edit"></mat-icon>
                 </button>
                 <button class="delete__btn" (click)="confirmDelete(session)">

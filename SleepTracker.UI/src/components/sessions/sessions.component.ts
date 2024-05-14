@@ -104,8 +104,10 @@ export class SessionsComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           res.subscribe({
-            next: () =>
-              (this.sessions$ = this.sleepSessionsService.getSessions()),
+            next: () => {
+              this.sessions$ = this.sleepSessionsService.getSessions();
+              this.paginateSessions();
+            },
           });
         }
       });

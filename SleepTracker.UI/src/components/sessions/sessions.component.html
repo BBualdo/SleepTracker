@@ -10,6 +10,8 @@
           onfocus="this.type='date'; this.showPicker()"
           onchange="this.blur()"
           onblur="this.type='text'"
+          #search
+          (change)="filterByDate(search.value)"
         />
         <button
           class="btn primary__btn"

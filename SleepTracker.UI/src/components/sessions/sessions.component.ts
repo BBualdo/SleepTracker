@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SleepSession } from '../../models/SleepSession';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, filter, map, tap } from 'rxjs';
 import { SleepSessionsService } from '../../services/sleep-sessions.service';
 import { AsyncPipe, NgClass, formatDate } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogService } from '../../services/dialog.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginationService } from '../../services/pagination.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-sessions',
@@ -27,17 +28,31 @@ import { PaginationService } from '../../services/pagination.service';
   ],
 })
 export class SessionsComponent implements OnInit {
-  sessions$: Observable<SleepSession[]> =
-    this.sleepSessionsService.getSessions();
+  sessions$: Observable<SleepSession[]> = this.dataService.sessions$;
 
   constructor(
     private sleepSessionsService: SleepSessionsService,
     private dialogService: DialogService,
     public paginationService: PaginationService,
+    private dataService: DataService,
   ) {}
 
   ngOnInit(): void {
     this.paginationService.paginateSessions();
+  }
+
+  filterByDate(date: string) {
+    this.dataService.sessions$
+      .pipe(
+        map((sessions) =>
+          sessions.filter((session) =>
+            String(session.startTime).includes(date),
+          ),
+        ),
+      )
+      .subscribe((filteredSessions) => {
+        this.paginationService.paginateSessions(filteredSessions);
+      });
   }
 
   getDuration(duration: number): string {

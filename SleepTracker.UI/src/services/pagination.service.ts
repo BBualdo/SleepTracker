@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SleepSession } from '../models/SleepSession';
-import { SleepSessionsService } from './sleep-sessions.service';
+import { DataService } from './data.service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +13,17 @@ export class PaginationService {
   pageSize = 5;
   pagesAmount = 0;
 
-  constructor(private sessionsService: SleepSessionsService) {}
+  constructor(private dataService: DataService) {}
 
-  paginateSessions() {
+  paginateSessions(filteredSessions?: SleepSession[]) {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
 
-    this.sessionsService.getSessions().subscribe((sessions) => {
+    const sessionsToPaginate = filteredSessions
+      ? of(filteredSessions)
+      : this.dataService.sessions$;
+
+    sessionsToPaginate.subscribe((sessions) => {
       this.paginatedSessions = sessions.slice(startIndex, endIndex);
       this.pagesAmount = Math.ceil(sessions.length / this.pageSize);
       if (this.currentPage > this.pagesAmount) {

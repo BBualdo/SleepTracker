@@ -21,9 +21,9 @@
 
       <div class="sessions">
         @if (sessions.length > 0) {
-          @for (session of sessions; track $index) {
+          @for (session of paginatedSessions; track $index) {
             <div class="session">
-              <span>{{ $index + 1 }}</span>
+              <span>{{ $index + 1 + pageSize * (currentPage - 1) }}</span>
               <span>{{
                 formatDate(session.startTime, "dd.MM.yyyy HH:mm", "en-US")
               }}</span>
@@ -47,6 +47,18 @@
         } @else {
           <p class="no-sessions">No sessions yet.</p>
         }
+      </div>
+      <div
+        class="sessions__paginator"
+        [ngClass]="{ hidden: paginatedSessions.length == 0 }"
+      >
+        <button [disabled]="currentPage === 1" (click)="previousPage()">
+          <mat-icon fontIcon="chevron_left"></mat-icon>
+        </button>
+        <p>Page {{ currentPage }} of {{ pagesAmount }}</p>
+        <button [disabled]="currentPage === pagesAmount" (click)="nextPage()">
+          <mat-icon fontIcon="chevron_right"></mat-icon>
+        </button>
       </div>
     </div>
   } @else {

@@ -89,6 +89,10 @@ main {
   }
 }
 
+.hidden {
+  opacity: 0;
+}
+
 @keyframes blur {
   from {
     backdrop-filter: blur(0);
